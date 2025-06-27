@@ -1,0 +1,41 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="smartPiggy.Pages.InfoPiggy"
+             Title="InfoPiggy">
+    <ScrollView>
+        <VerticalStackLayout Margin="20" Spacing="20">
+
+            <!-- Заголовок -->
+            <Label Text="{Binding NamePiggy}" 
+                   FontSize="20" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <!-- Диаграмма-пончик -->
+            <Frame Padding="0" 
+                   CornerRadius="63" 
+                   HeightRequest="125"
+                   WidthRequest="125"
+                   HorizontalOptions="Center"
+                   BackgroundColor="#424242"
+                   BorderColor="#616161">
+                <GraphicsView x:Name="donutChartView" />
+            </Frame>
+
+            <!-- Легенда -->
+            <VerticalStackLayout x:Name="legendContainer" 
+                                Spacing="10"
+                                HorizontalOptions="Center"/>
+
+            <!-- Детали -->
+            <Frame Padding="15"
+                   CornerRadius="10"
+                   BackgroundColor="#616161">
+                <VerticalStackLayout Spacing="8" x:Name="stdetail"/>
+            </Frame>
+
+            <Button Text="Добавить" Clicked="AddMoneyClick" x:Name="addmoney"/>
+            <Entry Placeholder="Введите сумму" x:Name="tbnewsum" Keyboard="Numeric" TextChanged="tbnewsum_TextChanged"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

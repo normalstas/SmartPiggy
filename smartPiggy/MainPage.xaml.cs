@@ -97,7 +97,7 @@ namespace smartPiggy
 				Spacing = 5,
 				VerticalOptions = LayoutOptions.Center
 			};
-			amountLayout.Children.Add(new Label { Text = "в"});
+			amountLayout.Children.Add(new Label { Text = "в" });
 			amountLayout.Children.Add(periodPicker);
 
 			// Собираем форму
@@ -166,7 +166,7 @@ namespace smartPiggy
 						await DisplayAlert("Ошибка", "Очистите или полностью введите задачу", "OK");
 						return;
 					}
-					
+
 				}
 				else
 				{
@@ -219,7 +219,8 @@ namespace smartPiggy
 		}
 
 		List<PiggyTable> piggies;
-
+		decimal sumklient = 0;
+		decimal sumtask = 0;
 		private void VisibleNewPiggy()
 		{
 			visnewpiggyStackLayout.Children.Clear();
@@ -239,6 +240,10 @@ namespace smartPiggy
 
 			foreach (var piggy in piggies)
 			{
+
+				sumklient += piggy.CoutStartPiggy;
+				sumtask += piggy.SumPiggy;
+				sumlb.Text = $"Общее количество набранных средств: {sumklient} / {sumtask}";
 				// Основной контейнер для всей копилки
 				var piggyContainer = new VerticalStackLayout { ClassId = piggy.IdPiggy.ToString() };
 
@@ -350,7 +355,7 @@ namespace smartPiggy
 				var purposeEntry = new Entry { Text = piggy.PurposePiggy, Placeholder = "Цель" };
 				var taskEntry = new Entry { Text = piggy.TaskPiggy, Placeholder = "Задача" };
 				var couttaskEntry = new Entry { Text = piggy.CoutTaskPiggy.ToString(), Placeholder = "1000" };
-				var timetaskEntry = new Entry { Text = piggy.TimeTaskString, Placeholder = "Я буду откладывать..."};
+				var timetaskEntry = new Entry { Text = piggy.TimeTaskString, Placeholder = "Я буду откладывать..." };
 				var coutstartEntry = new Entry { Text = piggy.CoutStartPiggy.ToString(), Placeholder = "Я положу.." };
 				var startdataEntry = DateTime.Now.Date.ToString("yyyy-MM-dd");
 				var periodPicker = new Picker
@@ -435,7 +440,17 @@ namespace smartPiggy
 						taskEntry.Text = null;
 						couttaskEntry.Text = "0";
 					}
-
+					if (int.Parse(coutstartEntry.Text) < int.Parse(sumEntry.Text))
+					{
+						await DisplayAlert("Ошибка", "Начальное значение не может быть больше конечного", "OK");
+						return;
+					}
+					if (!decimal.TryParse(coutstartEntry.Text, out decimal a) ||
+					!decimal.TryParse(sumEntry.Text, out decimal b))
+					{
+						await DisplayAlert("Ошибка", "Проверьте числовые поля", "OK");
+						return;
+					}
 					var currentPiggy = PiggyServies.Get<PiggyTable>(piggy.IdPiggy.ToString());
 					// Сохраняем изменения
 					currentPiggy.NamePiggy = nameEntry.Text;
@@ -457,6 +472,8 @@ namespace smartPiggy
 							editFormLayout.IsVisible = false;
 							detailsLayout.IsVisible = false;
 							toggleButton.Text = "▽";
+							sumklient = 0;
+							sumtask = 0;
 							Visible();
 							nameEntry.Text = string.Empty;
 							purposeEntry.Text = string.Empty;
@@ -579,9 +596,10 @@ namespace smartPiggy
 				{
 					// Удаляем из базы данных
 					PiggyServies.Delete<PiggyTable>(piggyToDelete, piggyId);
+					sumklient = 0;
+					sumtask = 0;
 					VisibleNewPiggy();
-					await DisplayAlert("Успех", "Копилка удалена", "ОК"); 
-
+					await DisplayAlert("Успех", "Копилка удалена", "ОК");
 				}
 				catch (Exception ex)
 				{
@@ -609,17 +627,18 @@ namespace smartPiggy
 					infoPage.Disappearing += (s, args) => pageClosedTask.SetResult(true);
 
 					// Переходим на страницу
-					await Navigation.PushAsync(infoPage);
+					await Navigation.PushModalAsync(infoPage);
 
 					// Ждем, пока страница закроется
 					await pageClosedTask.Task;
 				}
-
+				sumklient = 0;
+				sumtask = 0;
 				// Этот код выполнится только после закрытия InfoPiggy
 				VisibleNewPiggy();
 			}
 
-				
+
 		}
 
 		private string TaskTimePiggy(PiggyTable piggy, out bool isOverdue)
@@ -649,6 +668,6 @@ namespace smartPiggy
 		}
 
 		private void Visible() => VisibleNewPiggy();
-		
+
 	}
 }

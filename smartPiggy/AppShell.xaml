@@ -5,11 +5,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:smartPiggy"
     Shell.FlyoutBehavior="Disabled"
-    Title="smartPiggy">
-
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    Title="SmartPiggyV2">
+    <TabBar>
+        <Tab Title="Копилка">
+            <ShellContent Route="MainPage" ContentTemplate="{DataTemplate local:MainPage}" />
+        </Tab>
+        <Tab Title="Расчет">
+            <ShellContent  Title="Расходы" ContentTemplate="{DataTemplate local:Expenditure}" />
+            <ShellContent  Title="Доходы" ContentTemplate="{DataTemplate local:Income}" />
+        </Tab>
+        <Tab Title="Задачник">
+            <ShellContent ContentTemplate="{DataTemplate local:TaskPage}"/>
+        </Tab>
+    </TabBar>
 </Shell>

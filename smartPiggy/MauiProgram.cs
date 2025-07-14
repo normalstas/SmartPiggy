@@ -20,8 +20,8 @@ namespace smartPiggy
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-
-            return builder.Build();
+			builder.Services.AddSingleton<AppShell>();
+			return builder.Build();
         }
     }
 }

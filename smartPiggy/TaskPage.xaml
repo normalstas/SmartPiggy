@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="smartPiggy.TaskPage"
+             Title="TaskPage">
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label Text="..."/>
+            <HorizontalStackLayout Padding="5">
+                <Entry x:Name="newtaskentry" HorizontalOptions="Start"/>
+                <Picker x:Name="newtaskcategory"/>
+                <Button x:Name="addbtn" Clicked="allbtn_Clicked" Text="Добавить" CommandParameter="add"/>
+                <Button x:Name="removebtn" Clicked="allbtn_Clicked" Text="Изменить" CommandParameter="remove"/>
+                <Button x:Name="deletebtn" Clicked="allbtn_Clicked" Text="Удалить" CommandParameter="delete"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Padding="5">
+                <Button Width="60" Clicked="allbtn_Clicked" Height="30" CommandParameter="allcate" Text="Все"/>
+                <Button Width="60" Clicked="allbtn_Clicked" Height="30" CommandParameter="workcate"  Text="Работа"/>
+                <Button Width="60" Clicked="allbtn_Clicked" Height="30" CommandParameter="housecate" Text="Дом"/>
+                <Button Width="60" Clicked="allbtn_Clicked" Height="30" CommandParameter="learncate" Text="Учеба"/>
+                <Button Width="60" Clicked="allbtn_Clicked"  Height="30" CommandParameter="alsocate" Text="Другое"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Button Clicked="allbtn_Clicked" Text="Выполненные" CommandParameter="complete" Height="30" Width="90"/>
+                <Button Clicked="allbtn_Clicked" Text="Не выполненные" CommandParameter="nocomplete"  Height="30" Width="100"/>
+                <Button Clicked="allbtn_Clicked" Text="Все"  Height="30" CommandParameter="allcomplete" Width="100"/>
+            </HorizontalStackLayout>
+
+            <ListView x:Name="listinfo">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <HorizontalStackLayout Padding="10" Spacing="10">
+                                <CheckBox IsChecked="{Binding CheckedTask, Mode=TwoWay}"/>
+                                <Label Text="{Binding TitleTask}" FontSize="Medium" 
+                                   VerticalOptions="Center" WidthRequest="150"/>
+                                <Label Text="{Binding CategoryTask}" FontSize="Small" 
+                                   VerticalOptions="Center" WidthRequest="80"/>
+                                <Label Text="{Binding StartDateTask, StringFormat='{0:dd.MM.yy}'}" 
+                                   FontSize="Small" VerticalOptions="Center" WidthRequest="60"/>
+                                <Label Text="{Binding EndDateTask, StringFormat='{0:dd.MM.yy}'}" 
+                                   FontSize="Small" VerticalOptions="Center" WidthRequest="60"/>
+                            </HorizontalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

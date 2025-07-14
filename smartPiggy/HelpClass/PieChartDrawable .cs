@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace smartPiggy.Models
+namespace smartPiggy.HelpClass
 {
 	public class DonutChartDrawable : IDrawable
 	{

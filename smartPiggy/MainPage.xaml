@@ -1,13 +1,12 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="smartPiggy.MainPage">
+             x:Class="smartPiggy.MainPage"
+             xmlns:local="clr-namespace:smartPiggy">
 
     <ScrollView>
         <StackLayout>
-            <Grid>
-                <Label x:Name="sumlb" Text="Общее количество набранных средств"/>
-                <Label x:Name="sum"/>
-            </Grid>
+
+            <Label x:Name="sumlb"/>
             <StackLayout x:Name="st_piggy" Padding="5">
                 <Label x:Name="condition_piggy" Text="Добавить копилку"/>
                 <StackLayout x:Name="visnewpiggyStackLayout" Margin="10"/>
